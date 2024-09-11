@@ -62,6 +62,7 @@ model CharItem {
   item        Items @relation(fields: [itemCode], references: [itemCode])
 
   @@map("CharItem")
+  @@unique([charId, itemCode])
 }
 
 model CharInven {
@@ -74,4 +75,5 @@ model CharInven {
   item        Items     @relation(fields: [itemCode], references: [itemCode])
 
   @@map("CharInven")
+  @@unique([charId, itemCode])
 }

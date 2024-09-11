@@ -12,7 +12,7 @@ router.get("/char/:charId/equipped", async (req, res, next) => {
   const { charId } = req.params;
 
   try {
-    const character = await prisma.character.findUnique({
+    const character = await prisma.char.findUnique({
       where: { charId: +charId },
       include: {
         items: {

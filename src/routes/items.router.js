@@ -73,18 +73,6 @@ router.put("/item/:itemCode/update", async (req, res, next) => {
 // 게임 내 아이템 목록 조회
 router.get("/item", async (req, res, next) => {
   try {
-    const isExistItem = await prisma.items.findUnique({
-      where: {
-        itemCode: +itemCode,
-      },
-    });
-
-    if (!isExistItem) {
-      return res
-        .status(404)
-        .json({ message: `${items.itemName}이 존재하지 않아` });
-    }
-
     const items = await prisma.items.findMany({
       select: {
         itemCode: true,
@@ -123,7 +111,7 @@ router.get("/item/:itemCode/detail", async (req, res, next) => {
 });
 
 // 게임 내 아이템 삭제
-router.delete("/item/:itemcode/del", async (req, res, next) => {
+router.delete("/item/:itemCode/del", async (req, res, next) => {
   const { itemCode } = req.params;
 
   try {

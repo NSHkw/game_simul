@@ -8,11 +8,12 @@ const router = express.Router();
 
 // 캐릭터 관련
 // 캐릭터 생성
-router.post("/char/create", authMiddleware, async (req, res, next) => {
-  const { accountId, name } = req.body;
+router.post("/char/:accountId/create", async (req, res, next) => {
+  const { accountId } = req.params;
+  const { name } = req.body;
 
   try {
-    const isExistName = await prisma.char.findFirst({
+    const isExistName = await prisma.char.findUnique({
       where: {
         name,
       },
@@ -39,7 +40,7 @@ router.post("/char/create", authMiddleware, async (req, res, next) => {
 });
 
 // 캐릭터 삭제
-router.delete("/char/:charId/drop", authMiddleware, async (req, res, next) => {
+router.delete("/char/:charId/drop", async (req, res, next) => {
   const { charId } = req.params;
 
   try {
@@ -71,7 +72,7 @@ router.delete("/char/:charId/drop", authMiddleware, async (req, res, next) => {
 });
 
 // 캐릭터 상세 조회
-router.get("/char/:charId/detail", authMiddleware, async (req, res, next) => {
+router.get("/char/:charId/detail", async (req, res, next) => {
   const { charId } = req.params;
 
   try {
@@ -95,12 +96,7 @@ router.get("/char/:charId/detail", authMiddleware, async (req, res, next) => {
         .json({ message: `${char.name} 캐릭터를 찾을 수 없다.` });
     }
 
-    if (req.user) {
-      return res.status(200).json({ char });
-    } else {
-      const { money, stat, ...noAuthData } = char;
-      return res.status(200).json({ noAuthData });
-    }
+    return res.status(200).json({ char });
   } catch {
     console.error(error);
     return res.status(500).json({ message: "서버 에러", error });

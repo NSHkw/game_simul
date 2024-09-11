@@ -11,7 +11,7 @@ const app = express();
 const PORT = 3022;
 
 app.use(express.json());
-app.use(cookieParser);
+app.use(cookieParser());
 app.use("/api", [
   UsersRouter,
   ItemsRouter,

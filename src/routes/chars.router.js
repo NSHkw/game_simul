@@ -8,7 +8,7 @@ const router = express.Router();
 
 // 캐릭터 관련
 // 캐릭터 생성
-router.post("/char/create", async (req, res, next) => {
+router.post("/char/create", authMiddleware, async (req, res, next) => {
   const { accountId, name } = req.body;
 
   try {
@@ -24,7 +24,7 @@ router.post("/char/create", async (req, res, next) => {
         .json({ message: `${name}은 존재하는 캐릭터 이름이다.` });
     }
 
-    const newName = await prisma.char.create({
+    await prisma.char.create({
       data: {
         accountId: +accountId,
         name,
@@ -39,7 +39,7 @@ router.post("/char/create", async (req, res, next) => {
 });
 
 // 캐릭터 삭제
-router.delete("/char/:charId/drop", async (req, res, next) => {
+router.delete("/char/:charId/drop", authMiddleware, async (req, res, next) => {
   const { charId } = req.params;
 
   try {

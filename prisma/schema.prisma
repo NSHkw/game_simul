@@ -9,6 +9,69 @@ generator client {
 }
 
 datasource db {
-  provider = "sql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
+}
+
+model Account {
+  accountId Int     @id @default(autoincrement()) @map("accountId")
+  loginId   String  @unique @map("loginId")
+  password  String  @map("password")
+  gender    String  @map("gender")
+
+  char Char[]
+
+  @@map("Account")
+}
+
+model Char {
+  charId    Int       @id @default(autoincrement()) @map("charId")
+  name      String    @unique @map("name")
+  createdAt DateTime  @default(now()) @map("createdAt")
+  money     Int       @default(10000) @map("money")
+  stat      Json      @default("{\"health\": 500, \"power\": 100}") @map("stat")
+
+  account   Account   @relation(fields: [accountId], references: [accountId])
+  accountId Int
+
+  items     CharItem[]
+  inven     CharInven[]
+  
+  @@map("Char")
+}
+
+model Items {
+  itemCode    Int @id @default(autoincrement()) @map("itemCode")
+  itemName    String  @unique @map("itemName")
+  description String? @default("ITEM")  @map("description")
+  itemStat    Json    @map("itemStat")
+  itemPrice   Int     @map("itemPrice")
+
+  charItem   CharItem[]
+  charInven  CharInven[]
+
+  @@map("Items")
+}
+
+model CharItem {
+  charItemId  Int   @map("charItemId")  @id @default(autoincrement())
+  charId      Int   @map("charId")
+  itemCode    Int   @map("itemCode")
+
+  char        Char  @relation(fields: [charId], references: [charId])
+  item        Items @relation(fields: [itemCode], references: [itemCode])
+
+  @@map("CharItem")
+}
+
+model CharInven {
+  charInvenId Int @map("charInvenId") @id @default(autoincrement())
+  charId      Int @map("charId")
+  itemCode    Int @map("itemCode")
+  quantity    Int @default(0) @map("quantity")
+
+  char   Char @relation(fields: [charId], references: [charId])
+  item        Items     @relation(fields: [itemCode], references: [itemCode])
+
+  @@map("CharInven")
 }

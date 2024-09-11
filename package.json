@@ -5,6 +5,10 @@
   "repository": "https://github.com/NSHkw/game_simul.git",
   "author": "NSHkw <64311828+NSHkw@users.noreply.github.com>",
   "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon app.js"
+  },
   "dependencies": {
     "@prisma/client": "^5.19.1",
     "cookie-parser": "^1.4.6",

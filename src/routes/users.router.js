@@ -90,21 +90,6 @@ router.post("/account/sign-in", async (req, res, next) => {
   }
 });
 
-// 로그아웃 API
-router.post("/account/logout", authMiddleware, async (req, res, next) => {
-  try {
-    // 클라이언트 쿠키에서 authorization 토큰 제거
-    res.clearCookie("authorization");
-
-    return res
-      .status(200)
-      .json({ message: "로그아웃이 성공적으로 완료되었습니다." });
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: "서버 에러", error });
-  }
-});
-
 // 계정 내 캐릭터 목록 조회
 router.get("/char/:accountId", async (req, res, next) => {
   const { accountId } = req.params;

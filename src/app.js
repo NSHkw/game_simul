@@ -12,13 +12,11 @@ const PORT = 3000;
 
 app.use(express.json());
 app.use(cookieParser());
-app.use("/api", [
-  UsersRouter,
-  ItemsRouter,
-  CharsRouter,
-  CharItemRouter,
-  CharInvenRouter,
-]);
+app.use("/api", UsersRouter);
+app.use("/api", ItemsRouter);
+app.use("/api", CharsRouter);
+app.use("/api", CharItemRouter);
+app.use("/api", CharInvenRouter);
 
 app.listen(PORT, "0.0.0.0", () => {
   console.log(PORT, "포트로 서버 열림");

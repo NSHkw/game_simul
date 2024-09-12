@@ -8,7 +8,7 @@ import CharInvenRouter from "./routes/charInven.router.js";
 import cookieParser from "cookie-parser";
 
 const app = express();
-const PORT = 3022;
+const PORT = 3000;
 
 app.use(express.json());
 app.use(cookieParser());
@@ -20,6 +20,6 @@ app.use("/api", [
   CharInvenRouter,
 ]);
 
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
   console.log(PORT, "포트로 서버 열림");
 });
